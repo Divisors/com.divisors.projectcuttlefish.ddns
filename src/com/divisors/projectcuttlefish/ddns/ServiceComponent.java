@@ -1,5 +1,6 @@
 package com.divisors.projectcuttlefish.ddns;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.eclipse.osgi.framework.console.CommandInterpreter;
@@ -9,15 +10,15 @@ import org.eclipse.osgi.framework.console.CommandProvider;
 // referenced in component.xml
 public class ServiceComponent implements CommandProvider {
 	
-	private TurnClientService turnClient;
+	private StunClientService stunClient;
 	
-	public void _turn(CommandInterpreter ci) {
+	public void _turn(CommandInterpreter ci) throws IOException {
 		String arg = ci.nextArgument();
 		System.out.println("Foo"+arg);
 		if (arg == null)
-			ci.println("IP: " + turnClient.getIp());
+			ci.println("IP: " + stunClient.getIp());
 		else if (arg.equalsIgnoreCase("servers"))
-			ci.println(Arrays.toString(turnClient.getServers()));
+			ci.println(Arrays.toString(stunClient.getServers()));
 	}
 
 	public String getHelp() {
@@ -27,12 +28,12 @@ public class ServiceComponent implements CommandProvider {
 		return buffer.toString();
 	}
 	
-	public void setDictionary(TurnClientService d) {
-		turnClient = d;
+	public void setDictionary(StunClientService d) {
+		stunClient = d;
 	}
 	
-	public void unsetDictionary(TurnClientService d) {
-		turnClient = null;
+	public void unsetDictionary(StunClientService d) {
+		stunClient = null;
 	}
 	
 }

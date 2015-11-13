@@ -12,7 +12,7 @@ import org.osgi.util.tracker.ServiceTracker;
 
 public class Activator implements BundleActivator, ServiceListener {
 
-	private TurnClientService service;
+	private StunClientService service;
 	private ServiceComponent cmp;
 	private ServiceTracker<?, ?> dictionaryServiceTracker;
 	private BundleContext fContext;
@@ -28,23 +28,23 @@ public class Activator implements BundleActivator, ServiceListener {
 	 */
 	public void start(BundleContext context) throws Exception {
 		fContext = context;
-		service = new TurnClientServiceImpl();
+		service = new StunClientServiceImpl();
 		for (String[] server : servers)
-			service.registerDictionary(new TurnClientImpl(server[0],server[2],server[1]));
+			service.registerDictionary(new StunClientImpl(server[0],server[2],server[1].toCharArray()));
 		
 		Hashtable<String, ?> props = new Hashtable<String, Object>();
 		// register the service
-		context.registerService(TurnClientService.class.getName(), service, props);
+		context.registerService(StunClientService.class.getName(), service, props);
 
 		// create a tracker and track the service
-		dictionaryServiceTracker = new ServiceTracker<Object, Object>(context, TurnClientService.class.getName(), null);
+		dictionaryServiceTracker = new ServiceTracker<Object, Object>(context, StunClientService.class.getName(), null);
 		dictionaryServiceTracker.open();
 
 		// have a service listener to implement the whiteboard pattern
-	    fContext.addServiceListener(this, "(objectclass=" + TurnClient.class.getName() + ")");
+	    fContext.addServiceListener(this, "(objectclass=" + StunClient.class.getName() + ")");
 		
 		// grab the service
-		service = (TurnClientService) dictionaryServiceTracker.getService();
+		service = (StunClientService) dictionaryServiceTracker.getService();
 		cmp = new ServiceComponent();
 		context.registerService(CommandProvider.class.getName(), cmp, null);
 		cmp.setDictionary(service);
@@ -68,13 +68,13 @@ public class Activator implements BundleActivator, ServiceListener {
 		switch(ev.getType()) {
 			case ServiceEvent.REGISTERED:
 			{
-				TurnClient dictionary = (TurnClient) fContext.getService(sr);
+				StunClient dictionary = (StunClient) fContext.getService(sr);
 				service.registerDictionary(dictionary);
 			}
 			break;
 			case ServiceEvent.UNREGISTERING:
 			{
-				TurnClient dictionary = (TurnClient) fContext.getService(sr);
+				StunClient dictionary = (StunClient) fContext.getService(sr);
 				service.unregisterDictionary(dictionary);
 			}
 			break;

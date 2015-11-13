@@ -6,23 +6,23 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TurnClientServiceImpl implements TurnClientService {
+public class StunClientServiceImpl implements StunClientService {
 
-	private List<TurnClient> clients = new ArrayList<>();
+	private List<StunClient> clients = new ArrayList<>();
 	
-    public void registerDictionary(TurnClient dictionary) {
+    public void registerDictionary(StunClient dictionary) {
     	clients.add(dictionary);
     }
     
     @Override
-    public void unregisterDictionary(TurnClient dictionary) {
+    public void unregisterDictionary(StunClient dictionary) {
     	clients.remove(dictionary);
     }
 	
     public String[] getServers() {
     	List<String> languages = new ArrayList<>();
     	for (int i = 0; i < clients.size(); i++ ) {
-			TurnClient dictionary = (TurnClient) clients.get(i);
+			StunClient dictionary = (StunClient) clients.get(i);
 			languages.add(dictionary.getServer());
 		}
     	return (String[]) languages.toArray(new String[clients.size()]);

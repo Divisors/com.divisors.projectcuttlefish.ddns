@@ -2,21 +2,21 @@ package com.divisors.projectcuttlefish.ddns;
 
 import java.io.IOException;
 
-public interface TurnClientService {
+public interface StunClientService {
 	
     /**
      * Register a turn client
      * 
      * @param dictionary the dictionary to be added.
      */
-    public void registerDictionary(TurnClient dictionary);
+    public void registerDictionary(StunClient dictionary);
     
     /**
      * Remove a turn client
      * 
      * @param dictionary the dictionary to be removed.
      */
-    public void unregisterDictionary(TurnClient dictionary);
+    public void unregisterDictionary(StunClient dictionary);
 	
     public String getIp() throws IOException;
     

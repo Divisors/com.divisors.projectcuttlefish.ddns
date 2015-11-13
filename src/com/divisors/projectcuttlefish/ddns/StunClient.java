@@ -2,7 +2,7 @@ package com.divisors.projectcuttlefish.ddns;
 
 import java.io.IOException;
 
-public interface TurnClient {
+public interface StunClient {
 	
     public String getServer();
     
